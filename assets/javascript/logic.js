@@ -91,7 +91,7 @@ $(document).ready(function(){
                                 //updates food text in HTML with a review
                                 $("#food-text").html(review);
                                 //updates the website in HTML
-                                $("#food-website a").text(website);
+                                $("#food-website").attr("href",website);
 
                              });
                             answerSelected = true;
