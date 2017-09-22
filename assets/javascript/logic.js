@@ -43,6 +43,7 @@ $(document).ready(function(){
                     //Set ratings variable to the rating of the restuarant from google
                     var rating = response.results[i].rating;
                     var placeId = response.results[i].place_id;
+                    
                     //We set detailsURL as the URL we will submit to the Google Details API.
                     //This call will be to get extra details about our place of choice
                     var detailsURL = "https://cors.io/?https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeId + "&key=AIzaSyBVpclmUg26SON5iYqEAA51dlOHoZFTVrU";
@@ -65,6 +66,7 @@ $(document).ready(function(){
                                     phone = response.result.formatted_phone_number;
                                     review = response.result.reviews[0].text;
                                     website = response.result.website;
+                                    
                                     console.log(fullAnswer);
                                     console.log(response.result.name);
                                     console.log(response.result.rating);
@@ -72,6 +74,7 @@ $(document).ready(function(){
                                     console.log(phone)
                                     console.log(review);
                                     console.log(website);
+                                    console.log(photoReference);
                                 //updates title in HTML
                                 $(".food-title").html(selectedAnswer);
                                 //updates rating picture in HTML
@@ -91,8 +94,24 @@ $(document).ready(function(){
                                 //updates food text in HTML with a review
                                 $("#food-text").html(review);
                                 //updates the website in HTML
-                                $("#food-website").attr("href",website);
+                                $("#food-website").attr("href", website);
 
+                                 //This calls the Place Photo Request using the Google API 
+                                 var photosURL = "https://cors.io/?https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + photoReference + "&key=AIzaSyBVpclmUg26SON5iYqEAA51dlOHoZFTVrU";
+                                 var photoReference;
+
+                                $.ajax({
+                                    url: photosURL, 
+                                    method: "GET",
+                                    dataType: "json"                 
+                                })
+                                //Log the details of our selected answer.
+                                .done(function(response) {
+                                    photoReference = response.result.photos[0].photo_reference;
+                                    //updates the photo in HTML
+                                    $("#food-img").attr("src", photoReference);
+                                    console.log(photoReference);
+                                });
                              });
                             answerSelected = true;
                         }
