@@ -1,3 +1,4 @@
+$(document).ready(function(){
 
 // UI Script
 	//-----------------------------------------------------
@@ -34,6 +35,7 @@ $(document).ready(function(){
     var UserLatitude;
     var UserLongitude;
 
+
     //Function to get the user location
     function getLocation() {
         //Make sure the broswer supports the HTML 5 geolocation method.
@@ -65,6 +67,7 @@ $(document).ready(function(){
         //Grab variable from mood-input and set to userInput
         var userInput = $("#mood-input").val().trim();
 
+
         // Scroll down page
 		 function goToByScroll(id){
 		 $('html,body').animate({
@@ -76,6 +79,7 @@ $(document).ready(function(){
 		          // Call the scroll function
 		        goToByScroll($(this).attr("id")); 
 		    });
+
 
         //Send a post to the indico API with userInput as the query text.
         $.post(
@@ -216,3 +220,6 @@ $(document).ready(function(){
     });
 
 });
+
+});
+
