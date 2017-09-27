@@ -203,6 +203,7 @@ $(document).ready(function(){
                             $("#review").text(review);
                             $("#price").text(price);
                             $("#address").text(address);
+                            $("#map").attr("href", mapsLink)
 
                         });
                         answerSelected = true;
