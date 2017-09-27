@@ -5,40 +5,85 @@
   <head>
 
     <meta charset="UTF-8">
-    <title>mood food</title>
-    <meta name="description" content="">
+    <title>Mood Food</title>
+    <meta name="Mood Food" content="food finder app">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- jQuery minified-->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
     <!-- Bootstrap CDN-->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!--     <script src="assets/javascript/logic.js"></script> -->
     <!-- CSS Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Work+Sans|Playfair+Display" rel="stylesheet">
+    <!-- Animatiom -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
 </head>
+
+
 
 <body>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-8 col-md-offset-2 searchContainer text-center">
-                <form id="movie-form">
-                    <label for="movie-input">How are you feeling?</label>
-                    <input type="text" id="mood-input"><br>
-                    <!-- Button triggers new movie or show to be added -->
-                    <input id="add-mood" type="submit" value="Submit">
-                </form>
+    <!-- Landing - How do you feel? -->
+    <section id="intro" class="wrapper style1 fullscreen">
+        <div class="container">
+        <div class="inner">
+            <h1>How do you feel?</h1>
+            <input id="mood-input" placeholder="enter your mood"></input>
+            <div class="row">
+                <button id="add-mood" class="button scrolly">Submit</button>
             </div>
         </div>
-    </div>
-    
-    <div class="container">
-        <div class="row">
-            <div class="results-div text-center"></div>
         </div>
+    </section>
+
+<!-- Section 1 -->
+<section id="scroll" class="wrapper style2">
+    <div class="row restaurant">
+        <div class="col-md-4">
+            <iframe id="street-view" src="" alt="food"id="map-image" width="550" height="450" frameborder="0" style="border:0"/>
+            </iframe>
+        </div>
+        <div class="col-md-8">
+            <h2 id="restaurant-name">Sed ipsum dolor</h2>
+                <p id="review">Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus.</p>
+                <p id="price"></p>
+                <p id="address"></p>
+                <div class="symbols">
+                    <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>
+                </div>
+        </div>
+    </div>        
+
+<div class="row restaurant">
+    <div class="col-md-4">
+        <img src="http://lorempixel.com/400/400/food/" alt="food"/>
     </div>
-    
+    <div class="col-md-8">
+        <h2>Sed ipsum dolor</h2>
+            <p id="review2">Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus.</p>
+            <p id="price2"></p>
+            <p id="address2"></p>
+    </div>
+</div>        
+
+<div class="row restaurant">
+    <div class="col-md-4">
+        <img src="http://lorempixel.com/400/400/food/" alt="food"/>
+    </div>
+    <div class="col-md-8">
+        <h2>Sed ipsum dolor</h2>
+            <p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus.</p>
+    </div>
+</div>        
+</section>         
     <!-- JavaScript -->
     <script src="assets/javascript/logic.js"></script>
+
 </body>
 </html>
