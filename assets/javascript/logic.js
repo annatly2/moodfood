@@ -1,38 +1,112 @@
 $(document).ready(function(){
 
     var fullAnswer;
+    var mood;
+    var foodCategory;
+    var UserLatitude;
+    var UserLongitude;
+
+    //Function to get the user location
+    function getLocation() {
+        //Make sure the broswer supports the HTML 5 geolocation method.
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setPosition);
+        } else { 
+            //We may also have to set a default UserLatitute and UserLongtitude here to 
+            //make sure we don't error out if the the browser does not support geolocation.
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
+
+    //Sets User Latitude and Longitude
+    function setPosition(position) {
+        UserLatitude = position.coords.latitude
+        UserLongitude = position.coords.longitude;
+        
+    }
+
+    //Run the procedure to get the user's location.  
+    //We need to to figure out what we are going to do if the user does not provide cordinates.
+    //WE should probably set a default longitude and latitude.
+    getLocation();
+
     
     $(document.body).on("click", "#add-mood", function() {
-
-        
-        //Prevent clicking on the page from being submitted to a "server"
         event.preventDefault();
 
-        //Grab the value from the form and set it to our variable called category
-        var category = $("#mood-input").val().trim();
-        
-        //This is our URL for calling the google search API.  This API call is used to find all restuarants
-        //that are with 10 miles from class, have a min and max price, and is open now.
-        //We also rank the results based on prominence
-        var queryURL = "https://cors.io/?https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=32.8392423,-117.1918068&radius=16000&type=restaurant&keyword=" +
-          category + "&key=AIzaSyBVpclmUg26SON5iYqEAA51dlOHoZFTVrU&minprice=0&maxprice=3&opennow&rankby=prominence";
-        
-        //This is the initial ajax call to the google places search.
-        $.ajax({
+        //Grab variable from mood-input and set to userInput
+        var userInput = $("#mood-input").val().trim();
+
+        //Send a post to the indico API with userInput as the query text.
+        $.post(
+            'https://apiv2.indico.io/emotion',
+            JSON.stringify({
+                'api_key': "dd15f1435272ef7c533e411333a0e5bc",
+                'data': userInput
+            })
+        //Make use of the returned data from indico API
+        ).then(function(res) { 
+            //Convert the response to JSON because it comes in as string.
+            //response is now an object with values for anger, fear, joy, sadness
+            //and surprise.  
+            var response = JSON.parse(res);
+
+            //This is unnecesary, but it helps for understanding the flow.
+            var obj = response.results;
+
+            //Using the reduce method, iterate through the response.results (aka obj) object
+            //and return the key with the largest value.
+            //We set mood to that key.
+            mood = Object.keys(obj).reduce(function(a, b){ return obj[a] > obj[b] ? a : b })
+
+            //We map our mood to the appropriate food category, and set the variable
+            //foodCategory
+            switch (mood) {
+              case "anger":
+                foodCategory = "Asian";
+                break;
+              case "fear":
+                foodCategory = "Comfort Food";
+                break;
+              case "joy":
+                foodCategory = "Mexican";
+                break;
+              case "sadness":
+                foodCategory = "Vegan";
+                break;
+              case "surprise":
+                foodCategory = "American";
+            }
+
+            console.log("Given that your mood is " + mood + " your food category will be " + foodCategory);
+            console.log(UserLatitude);
+            console.log(UserLongitude);
+            
+            //URL that we will use to search google for all restaurants that meet the following criteria:
+            //Must be within 8000 meters, google max price of 2, and open now.  The results are ranked
+            //by their prominense in google.
+            var queryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + UserLatitude + "," + UserLongitude + "&radius=8000&type=restaurant&keyword=" 
+                + foodCategory + "&key=AIzaSyBVpclmUg26SON5iYqEAA51dlOHoZFTVrU&minprice=0&maxprice=2&opennow&rankby=prominence";
+
+            $.ajax({
                 url: queryURL, 
                 method: "GET",
                 dataType: "json"                 
-                })
-            //Here we get the response from Google searches
-            .done(function(response) {
-           
-                //We create a variable for selectedAnswer that will store our resturant of choice.
-                var selectedAnswer;
-                //Creates variables to hold the address, phone, review (first one listed), website
+            }).done(function(response) {
+                //console.log(response);
+                var name;
                 var address; 
                 var phone;
                 var review;
+                var price;
+                var rating;
                 var website;
+                var mapsLink;
+
+                var mapRefId;
+                var mapLat;
+                var mpalong;
+                var streetviewURL;
                 //We create a variable that tracks whether the answer has been selected or not.
                 var answerSelected = false;
                 var i = 0;
@@ -46,84 +120,53 @@ $(document).ready(function(){
                     
                     //We set detailsURL as the URL we will submit to the Google Details API.
                     //This call will be to get extra details about our place of choice
-                    var detailsURL = "https://cors.io/?https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeId + "&key=AIzaSyBVpclmUg26SON5iYqEAA51dlOHoZFTVrU";
+                    var detailsURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeId + "&key=AIzaSyBVpclmUg26SON5iYqEAA51dlOHoZFTVrU";
+                    
 
                     //If the location is 3.5 or above in rating,s then we select the location as our selectedAnswer
                     //We also set "answerSelected" to true. 
-                    if (rating >= 3.0){
+                    if (rating >= 3.5){
+                        mapRefId = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAn4jrYVjueQ31TgPibm7j0wKnbRNxtOFI&q=place_id:" + placeId;
+
+                        $.ajax({
+                            url: detailsURL, 
+                            method: "GET",
+                            dataType: "json"                 
+                        })
+                        .done(function(response) {
                             
-                            selectedAnswer = response.results[i].name;
-                                                      
-                            $.ajax({
-                                url: detailsURL, 
-                                method: "GET",
-                                dataType: "json"                 
-                            })
-                            //Log the details of our selected answer.
-                            .done(function(response) {
-                                    fullAnswer = response;
-                                    address = response.result.formatted_address;
-                                    phone = response.result.formatted_phone_number;
-                                    review = response.result.reviews[0].text;
-                                    website = response.result.website;
-                                    
-                                    console.log(fullAnswer);
-                                    console.log(response.result.name);
-                                    console.log(response.result.rating);
-                                    console.log(response.result.formatted_address);
-                                    console.log(phone)
-                                    console.log(review);
-                                    console.log(website);
-                                    console.log(photoReference);
-                                //updates title in HTML
-                                $(".food-title").html(selectedAnswer);
-                                //updates rating picture in HTML
-                                if (3.0 <= rating >= 3.9){
-                                    $("#food-stars").attr("src", "assets/images/3stars.png");
-                                } else if (4.0 <= rating >= 4.9){
-                                    $("#food-stars").attr("src", "assets/images/4stars.png");
-                                } else if (rating >= 5.0) {
-                                    $("#food-stars").attr("src", "assets/images/5stars.png");
-                                } else {
-                                    $("#food-stars").attr("src", "assets/images/4stars.png");
-                                }
-                                //updates address in HTML
-                                $("#food-address").html(address);
-                                //updates phone number in HTML
-                                $("#food-phone-number").html(phone);
-                                //updates food text in HTML with a review
-                                $("#food-text").html(review);
-                                //updates the website in HTML
-                                $("#food-website").attr("href", website);
+                            name = response.result.name;
+                            rating = response.result.rating;
+                            price = response.result.price_level;
+                            address = response.result.formatted_address;
+                            phone = response.result.formatted_phone_number;
+                            review = response.result.reviews[0].text;
+                            website = response.result.website;
+                            mapsLink = response.result.url;
+                            mapLat = response.result.geometry.location.lat;
+                            mpalong = response.result.geometry.location.lng;
+                            streetviewURL = "https://www.google.com/maps/embed/v1/streetview?key=AIzaSyAn4jrYVjueQ31TgPibm7j0wKnbRNxtOFI&location=" 
+                            + mapLat + "," + mpalong + "&heading=210&pitch=10&fov=90" 
 
-                                 //This calls the Place Photo Request using the Google API 
-                                 var photosURL = "https://cors.io/?https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + photoReference + "&key=AIzaSyBVpclmUg26SON5iYqEAA51dlOHoZFTVrU";
-                                 var photoReference;
+                            //console.log(response);
+                            console.log(name);
+                            console.log(address);
+                            console.log("Price Level: " + price);
+                            console.log("Rating: " + rating);
+                            console.log("Phone Number: " + phone);
+                            console.log(review);
+                            console.log(website);
 
-                                $.ajax({
-                                    url: photosURL, 
-                                    method: "GET",
-                                    dataType: "json"                 
-                                })
-                                //Log the details of our selected answer.
-                                .done(function(response) {
-                                    photoReference = response.result.photos[0].photo_reference;
-                                    //updates the photo in HTML
-                                    $("#food-img").attr("src", photoReference);
-                                    console.log(photoReference);
-                                });
-                             });
-                            answerSelected = true;
-                        }
+                            $("#map-image").attr("src", mapRefId);
+                            $("#inside-image").attr("src", streetviewURL);
+                        });
+                        answerSelected = true;
+                    }
                     i++;
-                }
-                //Stops the loop once we have an answer selected.
-                while (answerSelected === false);
+                }while (answerSelected === false);
+            });
 
-
-            })           
-         }); 
-         
-         
-
+        });
     });
+
+});
