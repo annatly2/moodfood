@@ -21,7 +21,20 @@ $('input').click(function(){
 	console.log('filled')
 })
 
-
+function priceRating(price) {
+	if (price == 1) {
+		return '$';
+	}
+	else if (price == 2) {
+		return '$$';
+	}
+	else if (price == 3) {
+		return '$$$';
+	}
+	else if (price == 4) {
+		return '$$$$';
+	}
+}
 
        
 // Backend 
@@ -200,14 +213,19 @@ $(document).ready(function(){
                             console.log("Phone Number: " + phone);
                             console.log(review);
                             console.log(website);
+                            var priceConvert = priceRating(price);
+                            console.log(priceConvert);
 
                             $("#map-image").attr("src", mapRefId);
                             $("#street-view").attr("src", streetviewURL);
-                            $("#restaurant-name").text(name);
+                            $("#restaurant-name").html(name + " <span class='label label-default' id='price'>" + priceConvert + "</span>");
                             $("#review").text(review);
-                            $("#price").text(price);
-                            $("#address").text(address);
-                            $("#map").attr("href", mapsLink)
+                            $("#price").html(priceConvert);
+                            $("#address-text").text(address);
+                            $("address-link").attr("href", mapsLink);
+                            $("#map").attr("href", mapsLink);
+                            $("#phone").attr("href", phone);
+                            $("#website").attr("href", website);
 
                         });
                         answerSelected = true;
