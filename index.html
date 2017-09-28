@@ -41,7 +41,6 @@
     </section>
 
 <!-- Section 1 -->
-
 <section id="scroll" class="wrapper style2">
     <div class="container-fluid">
     <div class="restaurant">
@@ -54,10 +53,40 @@
                 <p id="review">Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus.</p>
                 <a id="address-link" href=""><span id="address-text"></span></a>
                 <div class="symbols">
-                    <a id="map" target="_blank" class="glyphicon glyphicon-globe" aria-hidden="true" href=""></a>
-                    <a id="phone" target="_blank" class="glyphicon glyphicon-phone" aria-hidden="true" href=""></a>
+                    <a id="map" target="_blank" class="glyphicon glyphicon-globe" aria-hidden="true" href="" data-toggle="modal" data-target="#myModal"></a>
+                    <a id="phone" target="_blank" class="glyphicon glyphicon-phone" aria-hidden="true" href="" ></a>
                     <a id="website" target="_blank" class="glyphicon glyphicon-cutlery" aria-hidden="true" href=""></a>
                 </div>
+
+
+                <div class="container">
+                  <!-- Modal -->
+                  <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                    
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Location</h4>
+                        </div>
+                        <div class="modal-body">
+                          <iframe
+                                  id="map-image"
+                                  width="550"
+                                  height="450"
+                                  frameborder="0" style="border:0"
+                                  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAn4jrYVjueQ31TgPibm7j0wKnbRNxtOFI&q=place_id:ChIJUen5Ayj-24ARbL8vm1Gm1CA" allowfullscreen>
+                                </iframe>       
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
         </div>
     </div>   
     </div>     
