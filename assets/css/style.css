@@ -38,6 +38,8 @@
 
 	body {
 		-webkit-text-size-adjust: none;
+		-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: antialiased;
 	}
 
 
@@ -105,6 +107,11 @@ a {
 	text-decoration: none;
 	padding: 0;
 	margin: 2em 0;
+	color: white;
+	-moz-transition: color 0.2s ease;
+	-webkit-transition: color 0.2s ease;
+	-ms-transition: color 0.2s ease;
+	transition: color 0.2s ease;
 }
 
 a:hover, a:link, a:active, a:visited {
@@ -164,10 +171,10 @@ a:hover, a:link, a:active, a:visited {
     -ms-transition: border-color 0.2s ease;
     transition: border-color 0.2s ease;
     background-color: transparent;
-    border: solid 1px !important;
-    border-color: rgba(255, 255, 255, 0.15) !important;
+    border: solid 1px;
+    border-color: rgba(255, 255, 255, 0.15);
     border-radius: 3em;
-    color: #ffffff !important;
+    color: #ffffff;
     cursor: pointer;
     display: inline-block;
     font-size: 0.6em;
@@ -183,6 +190,15 @@ a:hover, a:link, a:active, a:visited {
     text-transform: uppercase;
     white-space: nowrap;
 }
+
+
+
+		.button:hover {
+			border-color: rgba(255, 255, 255, 0.55);
+			border:1.1px  white solid;
+			background-color: rgba(255, 255, 255, 0.15);
+		}
+
 
 #street-view {
 	width: 100%;

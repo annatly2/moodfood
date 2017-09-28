@@ -2,25 +2,19 @@ $(document).ready(function(){
 
 // UI Script
 	//-----------------------------------------------------
-$(document).bind('keydown',function(e){
-        $('#mood').focus();
-    
-});
+
 
 $(document).ready(function(){
     $(".inner").addClass('animated fadeIn');
     });
 
-$('div').scroll(function(){
+$('.content').ready(function(){
 	console.log('scroll')
 	$(".wrapper").addClass('animated fadeLeft')
 });
 
-$('input').click(function(){
-	$('input').addClass('filled');
-	console.log('filled')
-})
 
+//Convert price from number into '$'
 function priceRating(price) {
 	if (price == 1) {
 		return '$';
@@ -36,7 +30,18 @@ function priceRating(price) {
 	}
 }
 
-       
+// Utilities 
+	//-----------------------------------------------
+
+// Scroll to top of window on reload
+window.onunload = function(){ window.scrollTo(0,0); }
+
+// Typing automatically entered into 'mood-input'
+$(document).bind('keydown',function(e){
+        $('#mood-input').focus();
+    
+});
+
 // Backend 
 	//-----------------------------------------------
 
@@ -80,6 +85,9 @@ $(document).ready(function(){
         //Grab variable from mood-input and set to userInput
         var userInput = $("#mood-input").val().trim();
 
+        //Clear mood-input
+        $("#mood-input").val("");
+
 
         // Scroll down page
 		 function goToByScroll(id){
@@ -88,9 +96,11 @@ $(document).ready(function(){
 			'slow');
 			}
 
-		 $(".scrolly").click(function(e) {  
+		 $(".scrolly").click(function(e) { 
+
 		          // Call the scroll function
 		        goToByScroll($(this).attr("id")); 
+		        $(".content").addClass('animated fadeInLeft');
 		    });
 
 
