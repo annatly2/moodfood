@@ -88,7 +88,7 @@ h2 {
 }
 
 p {
-	margin: 0 0 2em 0;
+	margin: 0 0;
 	padding: 0;
     border: 0;
     font-size: 100%;
@@ -106,7 +106,7 @@ img {
 a {
 	text-decoration: none;
 	padding: 0;
-	margin: 2em 0;
+	margin: .5em 0;
 	color: white;
 	-moz-transition: color 0.2s ease;
 	-webkit-transition: color 0.2s ease;
@@ -116,6 +116,20 @@ a {
 
 a:hover, a:link, a:active, a:visited {
 	text-decoration: none;
+}
+
+#phone:hover #number {
+    display: inline;
+}
+
+#number {
+	display: none;
+	transition: opacity .2s ease;
+}
+
+
+#street-view {
+	max-height:50vh;
 }
 
 .wrapper {
@@ -193,11 +207,11 @@ a:hover, a:link, a:active, a:visited {
 
 
 
-		.button:hover {
-			border-color: rgba(255, 255, 255, 0.55);
-			border:1.1px  white solid;
-			background-color: rgba(255, 255, 255, 0.15);
-		}
+.button:hover {
+	border-color: rgba(255, 255, 255, 0.55);
+	border:1.1px  white solid;
+	background-color: rgba(255, 255, 255, 0.15);
+}
 
 
 #street-view {

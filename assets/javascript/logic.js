@@ -30,6 +30,7 @@ function priceRating(price) {
 	}
 }
 
+
 // Utilities 
 	//-----------------------------------------------
 
@@ -234,7 +235,8 @@ $(document).ready(function(){
                             $("#address-text").text(address);
                             $("address-link").attr("href", mapsLink);
                             $("#map").attr("href", mapsLink);
-                            $("#phone").attr("href", phone);
+                            $("#phone").attr("href", "tel: " + phone);
+                            $("#number").text(phone)
                             $("#website").attr("href", website);
 
                         });
