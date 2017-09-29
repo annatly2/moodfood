@@ -13,6 +13,21 @@ $('.content').ready(function(){
 	$(".wrapper").addClass('animated fadeLeft')
 });
 
+//Firebase init
+  var config = {
+    apiKey: "AIzaSyBtDQOebNhFV1YILyo5ZWyHEfhibYW9HLg",
+    authDomain: "my-first-project-e87ad.firebaseapp.com",
+    databaseURL: "https://my-first-project-e87ad.firebaseio.com",
+    projectId: "my-first-project-e87ad",
+    storageBucket: "my-first-project-e87ad.appspot.com",
+    messagingSenderId: "850306191329"
+  };
+  firebase.initializeApp(config);
+
+    // Assign the reference to the database to a variable named 'database'
+    var database = firebase.database();
+
+
 
 //Convert price from number into '$'
 function priceRating(price) {
@@ -77,6 +92,8 @@ $(document).ready(function(){
     //Run the procedure to get the user's location.  
     //We need to to figure out what we are going to do if the user does not provide cordinates.
     //WE should probably set a default longitude and latitude.
+    UserLatitude = 32.711652;
+    UserLongitude = -117.161887;
     getLocation();
 
     
@@ -226,6 +243,14 @@ $(document).ready(function(){
                             console.log(website);
                             var priceConvert = priceRating(price);
                             console.log(priceConvert);
+
+                            database.ref().push({
+                                userInput: userInput,
+                                usermood: mood,
+                                UserLatitude: UserLatitude,
+                                UserLongitude: UserLongitude,
+                                restuarantName: name,     
+                            });
 
                             $("#map-image").attr("src", mapRefId);
                             $("#street-view").attr("src", streetviewURL);
