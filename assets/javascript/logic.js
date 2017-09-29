@@ -82,7 +82,7 @@ $(document).ready(function(){
     
     $(document.body).on("click", "#add-mood", function() {
         event.preventDefault();
-
+        setTimeout(goToByScroll, 1000);
         //Grab variable from mood-input and set to userInput
         var userInput = $("#mood-input").val().trim();
 
