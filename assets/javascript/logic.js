@@ -95,14 +95,14 @@ $(document).ready(function(){
 		 $('html,body').animate({
 		    scrollTop: $("#scroll").offset().top},
 			'slow');
-			}
+			};
 
-		 $(".scrolly").click(function(e) { 
+		 // $(".scrolly").click(function(e) { 
 
 		          // Call the scroll function
 		        goToByScroll($(this).attr("id")); 
 		        $(".content").addClass('animated fadeInLeft');
-		    });
+		    
 
 
         //Send a post to the indico API with userInput as the query text.
