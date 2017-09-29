@@ -233,7 +233,7 @@ $(document).ready(function(){
                             $("#review").text(review);
                             $("#price").html(priceConvert);
                             $("#address-text").text(address);
-                            $("address-link").attr("href", mapsLink);
+                            $("#address-link").attr("href", mapsLink);
                             $("#map").attr("href", mapsLink);
                             $("#phone").attr("href", "tel: " + phone);
                             $("#number").text(phone)
